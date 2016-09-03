@@ -1,0 +1,63 @@
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+
+ var prevArray = [ {_id:1, someKey: "RINGING", meta: { subKey1: 1234, subKey2: 52 } } ];
+ var currArray = [ {_id:1, someKey: "HANGUP",  meta: { subKey1: 1234, subKey2: 56 } },
+                {_id:2, someKey: "RINGING", meta: { subKey1: 5678, subKey2: 207, subKey3: 52 } } ];
+    
+			
+
+
+function makeTable(container, data) {
+    var table = $("<table border='1'/>");
+	var header=$("<tr>");
+	var firstEle=data[0];
+	$.each(Object.keys(data[0]),function(headerIndex, text){
+	if(typeof(data[0][text])=="object"){
+	$.each(Object.keys(data[0][text]),function(headerInnerIndex, innerText){
+	header.append(text+"_"+innerText);
+	header.append("<td/>");
+	});
+	
+	}else{
+	header.append(text);
+header.append("<td/>");
+	}
+	
+	});	
+	
+	header.append("</tr>");
+	
+	table.append(header);
+    $.each(data, function(rowIndex, r) {
+        var row = $("<tr/>");
+        $.each(r, function(colIndex, c) { 
+		var s=typeof(c) ;
+		if(s!="object"){
+            row.append($("<td/>").text(c));
+			}
+			else{
+			  $.each(c, function(colIndex, d) { 
+			   row.append($("<td/>").text(d));
+			  });
+			  
+			  }
+			  
+        });
+        table.append(row);
+    });
+    return container.append(table);
+}
+var div=$("#tableDiv");
+makeTable(div,currArray);
+});
+</script>
+</head>
+<div id="tableDiv">
+</div>
+
+
+</html>
